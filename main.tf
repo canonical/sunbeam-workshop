@@ -19,6 +19,10 @@ data "openstack_images_image_v2" "ubuntu" {
   name = "ubuntu2204"
 }
 
+data "openstack_networking_network_v2" "user_network" {
+  name = format("%s-network", var.username)
+}
+
 resource "openstack_compute_keypair_v2" "sunbeam_keypair" {
   name = "sunbeam-keypair"
 }
@@ -41,6 +45,13 @@ resource "openstack_blockstorage_volume_v3" "ceph_3" {
   size  = 50
 }
 
+resource "openstack_networking_port_v2" "external_port" {
+  count       = 3
+  name        = format("ext-port-%s", count.index)
+  network_id  = data.openstack_networking_network_v2.user_network.id
+  no_fixed_ip = true
+}
+
 resource "openstack_compute_instance_v2" "sunbeam" {
   count     = 3
   name      = format("sunbeam%s", count.index)
@@ -54,7 +65,7 @@ resource "openstack_compute_instance_v2" "sunbeam" {
   }
 
   network {
-    name = format("%s-network", var.username)
+    port = openstack_networking_port_v2.external_port[count.index].id
   }
 }
 
