@@ -11,8 +11,8 @@ terraform {
 provider "openstack" {
 }
 
-data "openstack_compute_flavor_v2" "m1_xlarge" {
-  name = "m1.xlarge"
+data "openstack_compute_flavor_v2" "m1_sunbeam" {
+  name = "m1.sunbeam"
 }
 
 data "openstack_images_image_v2" "ubuntu" {
@@ -45,7 +45,7 @@ resource "openstack_compute_instance_v2" "sunbeam" {
   count     = 3
   name      = format("sunbeam%s", count.index)
   image_id  = data.openstack_images_image_v2.ubuntu.id
-  flavor_id = data.openstack_compute_flavor_v2.m1_xlarge.id
+  flavor_id = data.openstack_compute_flavor_v2.m1_sunbeam.id
   user_data = data.cloudinit_config.sunbeam_config.rendered
   key_pair  = openstack_compute_keypair_v2.sunbeam_keypair.name
 
