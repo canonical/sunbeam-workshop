@@ -1,0 +1,13 @@
+#!/bin/bash
+
+set -e
+
+source ${HOME}/openrc
+
+terraform init
+
+terraform apply -var username=$OS_USERNAME -auto-approve
+
+terraform output -raw ssh-private-key > ${HOME}/.ssh/id_rsa
+
+chmod 0600 ${HOME}/.ssh/id_rsa
