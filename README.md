@@ -10,7 +10,8 @@ attached block devices for use with Ceph.
 'runme' assumes:
 
 a) terraform is installed (snap install terraform --classic)
-b) access details for openstack are contained in ${HOME}/openrc
+b) access details for openstack are contained in ${HOME}/openr
+c) a flavor exists in the cloud named "m1.sunbeam".
 
 A keypair is created as part of the setup and written to ${HOME}/.ssh/id\_rsa.
 
