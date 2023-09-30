@@ -3,6 +3,8 @@
 # Ensure packages are up-to-date
 package_update: true
 package_upgrade: true
+# Ensure installed packages and linux kernel version match
+package_reboot_if_required: true
 
 # Seed some useful snaps
 snap:
