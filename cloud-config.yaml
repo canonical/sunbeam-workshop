@@ -10,3 +10,16 @@ package_reboot_if_required: true
 snap:
   commands:
     - snap install --channel 2024.1/beta openstack
+
+# Configure Partner Cloud squid proxy
+write_files:
+- content: |
+    PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin"
+    HTTPS_PROXY=http://194.169.254.1:3128
+    HTTP_PROXY=http://194.169.254.1:3128
+    http_proxy=http://194.169.254.1:3128
+    no_proxy=10.11.2.23,10.11.1.0/24,10.11.2.10,10.11.2.0/24,10.11.3.0/24,10.11.7.0/24,10.11.8.0/24,10.0.0.0/8,192.168.0.0/16,127.0.0.1,172.16.0.0/16,.svc,.pc1.canonical.com,pc1-infra1,pc1-infra2,pc1-infra3,localhost,.cnep.canonical.com,10.11.8.199,10.11.3.199
+    NO_PROXY=172.16.0.0/16,10.1.0.0/16,10.11.2.10,192.168.0.0/16,10.11.2.0/24,10.11.8.0/24,.svc.cluster.local,pc1-infra1,10.11.3.199,10.11.2.23,.cnep.canonical.com,10.152.183.0/24,10.11.7.0/24,10.11.1.0/24,.pc1.canonical.com,10.0.0.0/8,localhost,10.11.3.0/24,.svc,127.0.0.1,10.11.8.199,pc1-infra3,pc1-infra2
+  path: /etc/environment
+  permissions: "0644"
+  owner: root:root
